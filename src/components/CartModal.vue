@@ -8,8 +8,8 @@
       </div>
     
       <div class="currency-select-row">
-        <select class="currency-select">
-          <option value="">USD</option>
+        <select class="currency-select" v-model="selectCurrency" @change="onChange">
+          <option v-for="(curr, idx) in currency" :key="idx" :value="curr">{{curr}}</option>
         </select>
       </div>
       {{cartItem.items}}
@@ -37,11 +37,29 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+
 export default {
   props: {
     cartItem: {
       type: Object,
       required: true
+    }
+  },
+
+  data() {
+    return {
+      selectCurrency: "USD",
+      currency: []
+    }
+  },
+
+  apollo: {
+    currency: {
+      // GraphQL Query
+      query: gql`query currencyList{
+        currency
+      }`,
     }
   },
 
@@ -59,6 +77,10 @@ export default {
 
     decrementQuantity(id) {
       this.$emit('decrement-quantity', id);
+    },
+
+    onChange() {
+      this.$emit('select-currency', this.selectCurrency )
     }
   }
 }

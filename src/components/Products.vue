@@ -16,13 +16,13 @@
             </a>
           </div>
           <div class="product-item__price">
-            <p class="product-item__price-para">From:</p><p class="chakra-text css-mgwhu5">{{product.price}}</p>
+            <p class="product-item__price-para">From:</p><p class="chakra-text css-mgwhu5">{{currency}} {{product.price}}</p>
           </div>
           <button type="button" class="btn btn-primary" @click="addToCart(product)">Add to Cart</button>
       </div>
     </div>
     </div>
-    <cart-modal :cartItem="cartItem" @decrement-quantity="decrementQty" @increment-quantity="incrementQty"/>
+    <cart-modal :cartItem="cartItem" @decrement-quantity="decrementQty" @increment-quantity="incrementQty" @select-currency="selectCurrency"/>
   </div>
 </template>
 
@@ -38,7 +38,6 @@ export default {
 
   data() {
     return {
-      cartOfLife: {},
       currency: 'USD',
       products: [],
       cartItem: {
@@ -114,32 +113,33 @@ export default {
             this.cartItem.items = this.cartItem.items.filter(cart => cart.id !== value)
           }
         }
-    }
-  },
+      }
+    },
 
-  incrementQty (value) {
-    for (const item of this.cartItem.items) {
-      console.log(value, item)
-      // if (itemId === id) {
-      //   const cartItem = this.items[id]
-      //   const qtyPrice = cartItem.price / cartItem.quantity
-      //   if (cartItem.quantity <= 4) {
-      //     cartItem.quantity += 1
-      //     cartItem.price = cartItem.price + qtyPrice
-      //     this.totalQty += 1
-      //     this.totalPrice += qtyPrice
-      //   }
-      // }
-    }
-  },
+    incrementQty (value) {
+      for (const item of this.cartItem.items) {
+        if (value === item.id) {
+          const qtyPrice = item.price / item.quantity
+            item.quantity += 1
+            item.price = item.price + qtyPrice
+            this.cartItem.totalPrice += qtyPrice
+        }
+      }
+    },
 
     openCart() {
       const modalContent = document.querySelector('.cart-content');
       const modalOverlay = document.querySelector('.overlay');
       modalContent.classList.add('open');
       modalOverlay.classList.add('open');
-    }    
+    },
+
+    selectCurrency(value) {
+      console.log(value)
+      this.currency = value;
+    }
   },
+
 };
 </script>
 
