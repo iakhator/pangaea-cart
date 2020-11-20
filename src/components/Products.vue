@@ -121,8 +121,8 @@ export default {
         if (value === item.id) {
           const qtyPrice = item.price / item.quantity
             item.quantity += 1
-            item.price = item.price + qtyPrice
-            this.cartItem.totalPrice += qtyPrice
+            item.price = item.price + qtyPrice;
+            this.cartItem.totalPrice += qtyPrice;
         }
       }
     },
@@ -130,8 +130,8 @@ export default {
     removeItem (value) {
       for (const item of this.cartItem.items) {
         if (value === item.id) {
-          this.cartItem.totalPrice = this.cartItem.totalPrice - item.price
-          this.cartItem.items = this.cartItem.items.filter(cart => cart.id !== value)
+          this.cartItem.totalPrice = this.cartItem.totalPrice - item.price;
+          this.cartItem.items = this.cartItem.items.filter(cart => cart.id !== value);
         }
       }
     },

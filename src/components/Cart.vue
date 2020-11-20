@@ -13,25 +13,30 @@
             <option v-for="(curr, idx) in currency" :key="idx" :value="curr">{{curr}}</option>
           </select>
         </div>
-        <div class="cart-item" v-for="item in cartItem.items" :key="item.id" >
-          <div class="product-description">
-            <span class="remove-product" style="cursor: pointer;" @click="removeItem(item.id)">x</span>
-            <div class="cart-product">
-              <h6>{{item.title}}</h6>
-              <div class="product-image">
-                <img :src="item.image_url" :alt="item.title">
+        <template v-if="cartLength">
+          <div class="cart-item" v-for="item in cartItem.items" :key="item.id" >
+            <div class="product-description">
+              <span class="remove-product" style="cursor: pointer;" @click="removeItem(item.id)">x</span>
+              <div class="cart-product">
+                <h6>{{item.title}}</h6>
+                <div class="product-image">
+                  <img :src="item.image_url" :alt="item.title">
+                </div>
               </div>
-            </div>
-            <div class="quantity">
-              <div class="quantity-selector">
-                <span class="counter-action decrement" @click="decrementQuantity(item.id)">-</span>
-                <span class="counter-number counter">{{item.quantity}} </span>
-                <span class="counter-action increment" @click="incrementQuantity(item.id)">+</span>
+              <div class="quantity">
+                <div class="quantity-selector">
+                  <span class="counter-action decrement" @click="decrementQuantity(item.id)">-</span>
+                  <span class="counter-number counter">{{item.quantity}} </span>
+                  <span class="counter-action increment" @click="incrementQuantity(item.id)">+</span>
+                </div>
+                <div class="price">{{defaultCurrency}} {{item.price.toFixed(2)}}</div>
               </div>
-              <div class="price">{{defaultCurrency}} {{item.price.toFixed(2)}}</div>
             </div>
           </div>
-        </div>
+        </template>
+        <template v-else>
+          <p style="margin-top: 20px; text-align: center; font-size: 120%;">There are no items in your cart.</p>
+        </template>
       </div>
       <div class="cart-footer2" v-if="cartLength">
         <div class="cart-subtotal">
