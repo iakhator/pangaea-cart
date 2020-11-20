@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
+import { PRODUCTS_QUERY } from '../constants/graphql'
 import Cart from './Cart';
 
 export default {
@@ -50,14 +50,7 @@ export default {
   apollo: {
     products: {
       // GraphQL Query
-      query: gql`query productList ($currency: Currency) {
-        products {
-          id,
-          title,
-          image_url,
-          price(currency: $currency)
-        }
-      }`,
+      query: PRODUCTS_QUERY,
       // Reactive variables
       variables () {
         return {
@@ -69,7 +62,6 @@ export default {
 
   methods: {
     addToCart(item) {
-      console.log(this.cartItem.items)
       const itemInCart = this.cartItem.items.find(cart => cart.id === item.id)
       if(itemInCart) {
         this.cartItem.items.forEach(cart => {

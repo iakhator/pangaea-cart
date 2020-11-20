@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
+import { CURRENCY_QUERY } from '../constants/graphql'
 
 export default {
   props: {
@@ -74,9 +74,7 @@ export default {
   apollo: {
     currency: {
       // GraphQL Query
-      query: gql`query currencyList{
-        currency
-      }`,
+      query: CURRENCY_QUERY,
     }
   },
 
