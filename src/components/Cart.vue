@@ -28,7 +28,7 @@
                 <span class="counter-number counter">{{item.quantity}} </span>
                 <span class="counter-action increment" @click="incrementQuantity(item.id)">+</span>
               </div>
-              <div class="price">{{defaultCurrency}} {{item.price}}</div>
+              <div class="price">{{defaultCurrency}} {{item.price.toFixed(2)}}</div>
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="cart-subtotal">
           <span>Subtotal</span>
           <div class="subtotal-price">
-            {{defaultCurrency}} {{cartItem.totalPrice}}
+            {{defaultCurrency}} {{cartItem.totalPrice.toFixed(2)}}
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@
             </a>
           </div>
           <div class="product-item__price">
-            <p class="product-item__price-para">From:</p><p class="chakra-text css-mgwhu5">{{defaultCurrency}} {{product.price}}</p>
+            <p class="product-item__price-para">From:</p><p class="chakra-text css-mgwhu5">{{defaultCurrency}} {{product.price.toFixed(2)}}</p>
           </div>
           <button type="button" class="btn btn-primary" @click="addToCart(product)">Add to Cart</button>
       </div>
@@ -70,7 +70,6 @@ export default {
   methods: {
     addToCart(item) {
       const itemInCart = this.cartItem.items.find(cart => cart.id === item.id)
-      console.log(itemInCart)
       if(itemInCart) {
         this.cartItem.items.forEach(cart => {
           cart.quantity += item.quantity;
@@ -141,19 +140,16 @@ export default {
 
   watch : {
     products:function(newValue) {
-        const myArrayFiltered = this.cartItem.items.filter((el) => {
+        const cartFiltered = this.cartItem.items.filter((el) => {
           return newValue.some((f) => {
-            console.log(f.price, el.price)
             if(f.id === el.id) {
               el.price = f.price * el.quantity
               return el
             }; 
           });
         });
-        this.cartItem.items = myArrayFiltered
-        this.cartTotal(this.cartItem)
-        console.log(this.cartItem.items);
-        // console.log(oldValue, 'oldValue');
+        this.cartItem.items = cartFiltered;
+        this.cartTotal(this.cartItem);
       }
   }
 };
