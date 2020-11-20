@@ -22,7 +22,7 @@
       </div>
     </div>
     </div>
-    <cart :cartItem="cartItem" :defaultCurrency="defaultCurrency" @decrement-quantity="decrementQty" @increment-quantity="incrementQty" @select-currency="selectCurrency"/>
+    <cart :cartItem="cartItem" :defaultCurrency="defaultCurrency" @decrement-quantity="decrementQty" @increment-quantity="incrementQty" @select-currency="selectCurrency" @remove-item="removeItem"/>
   </div>
 </template>
 
@@ -69,6 +69,7 @@ export default {
 
   methods: {
     addToCart(item) {
+      console.log(this.cartItem.items)
       const itemInCart = this.cartItem.items.find(cart => cart.id === item.id)
       if(itemInCart) {
         this.cartItem.items.forEach(cart => {
@@ -122,6 +123,15 @@ export default {
             item.quantity += 1
             item.price = item.price + qtyPrice
             this.cartItem.totalPrice += qtyPrice
+        }
+      }
+    },
+
+    removeItem (value) {
+      for (const item of this.cartItem.items) {
+        if (value === item.id) {
+          this.cartItem.totalPrice = this.cartItem.totalPrice - item.price
+          this.cartItem.items = this.cartItem.items.filter(cart => cart.id !== value)
         }
       }
     },

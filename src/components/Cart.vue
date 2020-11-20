@@ -15,7 +15,7 @@
         </div>
         <div class="cart-item" v-for="item in cartItem.items" :key="item.id" >
           <div class="product-description">
-            <span class="remove-product" style="cursor: pointer;">x</span>
+            <span class="remove-product" style="cursor: pointer;" @click="removeItem(item.id)">x</span>
             <div class="cart-product">
               <h6>{{item.title}}</h6>
               <div class="product-image">
@@ -95,6 +95,10 @@ export default {
 
     decrementQuantity(id) {
       this.$emit('decrement-quantity', id);
+    },
+
+    removeItem(id) {
+      this.$emit('remove-item', id)
     },
 
     onChange() {
