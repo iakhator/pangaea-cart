@@ -2,47 +2,84 @@
   <div class="cart-modal" ref="cart-modal">
     <div class="overlay"></div>
     <div class="cart-body right-cart">
-      <div class="cart-content"> 
+      <div class="cart-content">
         <div class="cart-top">
-          <div @click="closeCartModal" style="border-radius: 50%; border: 1px solid rgb(198, 204, 199); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492.004 492.004" style="height: 15px; width: 10px; fill: rgb(43, 46, 43);"><path d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"></path></svg>
+          <div
+            @click="closeCartModal"
+            style="border-radius: 50%; border: 1px solid rgb(198, 204, 199); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 492.004 492.004"
+              style="height: 15px; width: 10px; fill: rgb(43, 46, 43);"
+            >
+              <path
+                d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+              ></path>
+            </svg>
           </div>
         </div>
-      
+
         <div class="currency-select-row">
-          <select class="currency-select" v-model="selectCurrency" @change="onChange">
-            <option v-for="(curr, idx) in currency" :key="idx" :value="curr">{{curr}}</option>
+          <select
+            class="currency-select"
+            v-model="selectCurrency"
+            @change="onChange"
+          >
+            <option v-for="(curr, idx) in currency" :key="idx" :value="curr">{{
+              curr
+            }}</option>
           </select>
         </div>
         <template v-if="cartLength">
-          <div class="cart-item" v-for="item in cartItem.items" :key="item.id" >
+          <div class="cart-item" v-for="item in cartItem.items" :key="item.id">
             <div class="product-description">
-              <span class="remove-product" style="cursor: pointer;" @click="removeItem(item.id)">x</span>
+              <span
+                class="remove-product"
+                style="cursor: pointer;"
+                @click="removeItem(item.id)"
+                >x</span
+              >
               <div class="cart-product">
-                <h6>{{item.title}}</h6>
+                <h6>{{ item.title }}</h6>
                 <div class="product-image">
-                  <img :src="item.image_url" :alt="item.title">
+                  <img :src="item.image_url" :alt="item.title" />
                 </div>
               </div>
               <div class="quantity">
                 <div class="quantity-selector">
-                  <span class="counter-action decrement" @click="decrementQuantity(item.id)">-</span>
-                  <span class="counter-number counter">{{item.quantity}} </span>
-                  <span class="counter-action increment" @click="incrementQuantity(item.id)">+</span>
+                  <span
+                    class="counter-action decrement"
+                    @click="decrementQuantity(item.id)"
+                    >-</span
+                  >
+                  <span class="counter-number counter"
+                    >{{ item.quantity }}
+                  </span>
+                  <span
+                    class="counter-action increment"
+                    @click="incrementQuantity(item.id)"
+                    >+</span
+                  >
                 </div>
-                <div class="price">{{defaultCurrency}} {{item.price.toFixed(2)}}</div>
+                <div class="price">
+                  {{ defaultCurrency }} {{ item.price.toFixed(2) }}
+                </div>
               </div>
             </div>
           </div>
         </template>
         <template v-else>
-          <p style="margin-top: 20px; text-align: center; font-size: 120%;">There are no items in your cart.</p>
+          <p style="margin-top: 20px; text-align: center; font-size: 120%;">
+            There are no items in your cart.
+          </p>
         </template>
       </div>
       <div class="cart-footer2" v-if="cartLength">
         <div class="cart-subtotal">
           <span>Subtotal</span>
           <div class="subtotal-price">
-            {{defaultCurrency}} {{cartItem.totalPrice.toFixed(2)}}
+            {{ defaultCurrency }} {{ cartItem.totalPrice.toFixed(2) }}
           </div>
         </div>
       </div>
@@ -51,7 +88,7 @@
 </template>
 
 <script>
-import { CURRENCY_QUERY } from '../constants/graphql'
+import { CURRENCY_QUERY } from "../constants/graphql";
 
 export default {
   props: {
@@ -68,13 +105,13 @@ export default {
     return {
       selectCurrency: "USD",
       currency: []
-    }
+    };
   },
 
   apollo: {
     currency: {
       // GraphQL Query
-      query: CURRENCY_QUERY,
+      query: CURRENCY_QUERY
     }
   },
 
@@ -86,29 +123,29 @@ export default {
 
   methods: {
     closeCartModal() {
-      const modalContent = document.querySelector('.cart-body');
-      const modalOverlay = document.querySelector('.overlay');
-      modalOverlay.classList.remove('open');
-      modalContent.classList.remove('open');
+      const modalContent = document.querySelector(".cart-body");
+      const modalOverlay = document.querySelector(".overlay");
+      modalOverlay.classList.remove("open");
+      modalContent.classList.remove("open");
     },
 
     incrementQuantity(id) {
-      this.$emit('increment-quantity', id);
+      this.$emit("increment-quantity", id);
     },
 
     decrementQuantity(id) {
-      this.$emit('decrement-quantity', id);
+      this.$emit("decrement-quantity", id);
     },
 
     removeItem(id) {
-      this.$emit('remove-item', id)
+      this.$emit("remove-item", id);
     },
 
     onChange() {
-      this.$emit('select-currency', this.selectCurrency )
-    },
+      this.$emit("select-currency", this.selectCurrency);
+    }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -123,7 +160,7 @@ export default {
   opacity: 0;
   transition: all 0.4s ease-in-out;
 
-  &.open{
+  &.open {
     opacity: 0.5;
   }
 }
@@ -148,11 +185,11 @@ export default {
   bottom: 0;
   width: 35%;
   background: #e2e6e3;
-  z-index: 1;;
+  z-index: 1;
 }
 
 .cart-content {
-  padding: 20px
+  padding: 20px;
 }
 
 .cart-item {
@@ -165,7 +202,7 @@ export default {
   margin-bottom: 20px;
   background: #fff;
 
-   .product-description {
+  .product-description {
     color: #1e2d2b;
     width: 100%;
     line-height: 18px;
@@ -229,16 +266,17 @@ export default {
   width: 100%;
 }
 
-.cart-item .product-description .quantity, .cart-item .product-description .quantity-selector {
+.cart-item .product-description .quantity,
+.cart-item .product-description .quantity-selector {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .cart-item .product-description .quantity-selector {
-    border: 0.5px solid #bcbcbc;
-    padding: 7px;
-    width: 76px;
+  border: 0.5px solid #bcbcbc;
+  padding: 7px;
+  width: 76px;
 }
 
 .cart-item .product-description .quantity .price {
@@ -274,9 +312,13 @@ export default {
   height: 100%;
   overflow-x: auto;
   z-index: 1500;
-  transition: opacity 0.4s ease-in-out 0.1s, -webkit-transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86);
-  transition: transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86), opacity 0.4s ease-in-out 0.1s;
-  transition: transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86), opacity 0.4s ease-in-out 0.1s, -webkit-transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86);
+  transition: opacity 0.4s ease-in-out 0.1s,
+    -webkit-transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86);
+  transition: transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86),
+    opacity 0.4s ease-in-out 0.1s;
+  transition: transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86),
+    opacity 0.4s ease-in-out 0.1s,
+    -webkit-transform 0.4s cubic-bezier(0.28, 0.47, 0.29, 0.86);
   opacity: 0;
   left: auto;
   right: 0;
