@@ -159,6 +159,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+.product-header {
+  background:  #f5f5f4;
+  padding-top: 60px;
+}
+
 .product-items {
   background: #e2e6e3;
   display: grid;

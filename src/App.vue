@@ -22,7 +22,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 img, video {
@@ -37,7 +36,7 @@ body {
   font-weight: 300;
   margin: 0;
   font-size: 13px;
-  background-color: #f5f5f4;
+  background-color: #e2e6e3;
 }
 
 .btn {
