@@ -16,34 +16,33 @@
             </a>
           </div>
           <div class="product-item__price">
-            <p class="product-item__price-para">From:</p><p class="chakra-text css-mgwhu5">{{currency}} {{product.price}}</p>
+            <p class="product-item__price-para">From:</p><p class="chakra-text css-mgwhu5">{{defaultCurrency}} {{product.price}}</p>
           </div>
           <button type="button" class="btn btn-primary" @click="addToCart(product)">Add to Cart</button>
       </div>
     </div>
     </div>
-    <cart-modal :cartItem="cartItem" @decrement-quantity="decrementQty" @increment-quantity="incrementQty" @select-currency="selectCurrency"/>
+    <cart :cartItem="cartItem" :defaultCurrency="defaultCurrency" @decrement-quantity="decrementQty" @increment-quantity="incrementQty" @select-currency="selectCurrency"/>
   </div>
 </template>
 
 <script>
 import gql from "graphql-tag";
-import CartModal from './CartModal';
+import Cart from './Cart';
 
 export default {
   name: "Products",
   components: {
-    CartModal
+    Cart
   },
 
   data() {
     return {
-      currency: 'USD',
+      defaultCurrency: 'USD',
       products: [],
       cartItem: {
         items: [],
-        totalPrice: 0,
-        totalQuantity: 0
+        totalPrice: 0
       }
     }
   },
@@ -62,7 +61,7 @@ export default {
       // Reactive variables
       variables () {
         return {
-          currency: this.currency,
+          currency: this.defaultCurrency,
         }
       }
     }
@@ -71,6 +70,7 @@ export default {
   methods: {
     addToCart(item) {
       const itemInCart = this.cartItem.items.find(cart => cart.id === item.id)
+      console.log(itemInCart)
       if(itemInCart) {
         this.cartItem.items.forEach(cart => {
           cart.quantity += item.quantity;
@@ -128,18 +128,34 @@ export default {
     },
 
     openCart() {
-      const modalContent = document.querySelector('.cart-content');
+      const modalContent = document.querySelector('.cart-body');
       const modalOverlay = document.querySelector('.overlay');
       modalContent.classList.add('open');
       modalOverlay.classList.add('open');
     },
 
     selectCurrency(value) {
-      console.log(value)
-      this.currency = value;
+      this.defaultCurrency = value;
     }
   },
 
+  watch : {
+    products:function(newValue) {
+        const myArrayFiltered = this.cartItem.items.filter((el) => {
+          return newValue.some((f) => {
+            console.log(f.price, el.price)
+            if(f.id === el.id) {
+              el.price = f.price * el.quantity
+              return el
+            }; 
+          });
+        });
+        this.cartItem.items = myArrayFiltered
+        this.cartTotal(this.cartItem)
+        console.log(this.cartItem.items);
+        // console.log(oldValue, 'oldValue');
+      }
+  }
 };
 </script>
 
